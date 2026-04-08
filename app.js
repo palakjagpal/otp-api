@@ -16,11 +16,13 @@ app.use(express.json());
 
 app.use("/api/otp", otplimit, otpRoutes);
 
-app.get("/", (req,res) => {
-    console.log("OTP API IS RUNNING.....");
+app.get("/",(req,res) =>{
+  res.send("Otp api is running")
 })
 
-app.listen(PORT, () =>
-  console.log(`Server running on port http://localhost:${PORT}`)
-);
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port http://localhost:${PORT}`);
+});
 
