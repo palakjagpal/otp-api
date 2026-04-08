@@ -15,6 +15,15 @@ export const sendOTP = async(req,res) => {
             return res.status(400).json({ message : "Phone number is required" })
         }
 
+        const phone_regex = /^\+\d{10,15}$/;
+        if(!phone_regex.test(phone)){
+            return res.status(400).json(
+                {
+                    message : "Invalid phone format. Use +91xxxxxxxxxx"
+                }
+            )
+        }
+
         await client.verify.v2.services(process.env.SERVICE_SID).verifications.create(
             {
                 to : phone,
