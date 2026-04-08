@@ -17,7 +17,7 @@ app.use(express.json());
 app.use("/api/otp", otplimit, otpRoutes);
 
 app.get("/",(req,res) =>{
-  res.send("Otp api is running")
+  res.send("<h1>Otp api is running.....</h1>")
 })
 
 const PORT = process.env.PORT || 3000
