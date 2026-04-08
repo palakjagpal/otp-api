@@ -14,8 +14,6 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000
-
 app.use("/api/otp", otplimit, otpRoutes);
 
 app.get("/", (req,res) => {
