@@ -35,6 +35,8 @@ export const sendOTP = async(req,res) => {
             }
         )
 
+        console.log(process.env.SERVICE_SID);
+
 
         console.log("OTP sent");
         res.json(
