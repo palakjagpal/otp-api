@@ -10,13 +10,17 @@ export const sendOTP = async(req,res) => {
     try{
         const { phone } = req.body;
 
+        const cleanPhone = phone.replace(/\s|-/g, "");
+
+        console.log("Sending OTP to:", cleanPhone);
+
         if(!phone){
             console.log("Phone number is required");
             return res.status(400).json({ message : "Phone number is required" })
         }
 
         const phone_regex = /^\+\d{10,15}$/;
-        if(!phone_regex.test(phone)){
+        if(!phone_regex.test(cleanPhone)){
             return res.status(400).json(
                 {
                     message : "Invalid phone format. Use +91xxxxxxxxxx"
@@ -26,10 +30,11 @@ export const sendOTP = async(req,res) => {
 
         await client.verify.v2.services(process.env.SERVICE_SID).verifications.create(
             {
-                to : phone,
+                to : cleanPhone,
                 channel : "sms",
             }
         )
+
 
         console.log("OTP sent");
         res.json(
@@ -38,12 +43,15 @@ export const sendOTP = async(req,res) => {
             }
         )
     }catch(err){
-        console.log("Error sending OTP");
-        res.status(500).json(
-            {
-                message : "Error sending OTP"
-            }
-        )
+        console.error("FULL ERROR:", err);
+    console.error("MESSAGE:", err.message);
+    console.error("CODE:", err.code);
+    console.error("MORE INFO:", err.moreInfo);
+
+    res.status(500).json({
+        message: err.message,
+        code: err.code
+    });
     }
 }
 
